@@ -6,17 +6,35 @@
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+  font-weight: 800; 
+  font-size: 1.25rem;
+  letter-spacing: .5px; 
+  color: #fff; 
+  text-decoration: none;
+  transition: color .2s ease;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
+.logo:hover { color: #f9fafb; }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
+
+.item-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.product-img {
+  width: 300px;  
+  height: auto;    
+  border-radius: 8px;
+  object-fit: cover; 
+  margin: 1rem auto; 
+}
+
 
 @keyframes logo-spin {
   from {
@@ -31,10 +49,6 @@
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
-}
-
-.card {
-  padding: 2em;
 }
 
 .read-the-docs {

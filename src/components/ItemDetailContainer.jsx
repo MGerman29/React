@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getProductById } from "./mockdata";
-import { ItemDetail } from "./ItemDetail";
+import { getProductById } from "../mockData";
+import ItemDetail from "./ItemDetail";
 
 export default function ItemDetailContainer() {
-  const [product, setProduct] = useState(null);
+  const [item, setItem] = useState(null);
   const { itemId } = useParams();
 
   useEffect(() => {
-    getProductById(itemId).then((res) => setProduct(res));
+    getProductById(itemId).then(setItem);
   }, [itemId]);
 
   return (
-    <section className="p-4">
-      {product ? <ItemDetail product={product} /> : <p>Cargando...</p>}
+    <section className="container">
+      {item ? <ItemDetail product={item} /> : <p>Cargando...</p>}
     </section>
   );
 }

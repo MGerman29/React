@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getProducts, getProductsByCategory } from "./mockdata";
+import { getProducts, getProductsByCategory } from "../mockData";
 import ItemList from "./ItemList";
 
 export default function ItemListContainer({ mensaje }) {
@@ -8,16 +8,14 @@ export default function ItemListContainer({ mensaje }) {
   const { categoryId } = useParams();
 
   useEffect(() => {
-    const fetchData = categoryId ? getProductsByCategory(categoryId) : getProducts();
-    fetchData.then((res) => setItems(res));
+    let p = categoryId ? getProductsByCategory(categoryId) : getProducts();
+    p.then(setItems);
   }, [categoryId]);
 
   return (
-    <section className="p-4">
+    <section className="container">
       {mensaje && <h1>{mensaje}</h1>}
       <ItemList items={items} />
     </section>
   );
 }
-
-export { ItemListContainer };

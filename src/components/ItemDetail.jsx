@@ -1,30 +1,61 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
+import { CartContext } from "./CartContext";
+import "../index.css";
 
 export default function ItemDetail({ product }) {
   const [count, setCount] = useState(1);
+  const { addItem } = useContext(CartContext);
 
-  const handleAdd = () => setCount(count + 1);
+  if (!product) return null;
+
+  const handleAdd = () => count < product.stock && setCount(count + 1);
   const handleSub = () => count > 1 && setCount(count - 1);
 
-  return (
-    <div className="border p-6 rounded-lg shadow-md max-w-md mx-auto">
-      <img src={product.img} alt={product.name} className="w-full h-60 object-cover mb-4" />
-      <h2 className="text-2xl font-bold">{product.name}</h2>
-      <p className="text-lg">Precio: ${product.price}</p>
-      <p>Categoría: {product.category}</p>
-      <p>Stock: {product.stock}</p>
+  const handleAddToCart = () => {
+    addItem(product, count);
+    alert(`${count} ${product.name} agregado(s) al carrito`);
+  };
 
-      <div className="flex items-center gap-4 mt-4">
-        <button onClick={handleSub} className="px-3 py-1 bg-gray-300 rounded">-</button>
-        <span>{count}</span>
-        <button onClick={handleAdd} className="px-3 py-1 bg-gray-300 rounded">+</button>
+  return (
+    <section className="detail">
+      {/* Media */}
+      <div>
+        <img
+          className="detail-img"
+          src={product.img}
+          alt={product.name}
+          onError={(e) => { e.currentTarget.src = "/img/placeholder.png"; }}
+          loading="lazy"
+        />
       </div>
 
-      <button className="mt-4 w-full bg-green-600 text-white py-2 rounded">
-        Agregar al carrito
-      </button>
-    </div>
+      {/* Info */}
+      <div className="detail-info">
+        <h2>{product.name}</h2>
+
+        <p className="price">${product.price?.toLocaleString?.() ?? product.price}</p>
+        {product.category && <p>Categoría: <strong>{product.category}</strong></p>}
+        <p>Stock disponible: {product.stock}</p>
+
+        {/* Contador */}
+        <div className="count">
+          <button onClick={handleSub} aria-label="Restar">−</button>
+          <span className="qty">{count}</span>
+          <button onClick={handleAdd} aria-label="Sumar">＋</button>
+        </div>
+
+        {/* CTA */}
+        <button
+          className="btn-primary"
+          onClick={handleAddToCart}
+          disabled={product.stock === 0}
+        >
+          {product.stock === 0 ? "Sin stock" : "Agregar al carrito"}
+        </button>
+
+        <Link to="/" className="back-link">Volver al catálogo</Link>
+      </div>
+    </section>
   );
 }
-
-export { ItemDetail };
